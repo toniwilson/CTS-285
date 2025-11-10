@@ -1,0 +1,15 @@
+1. The AI as Collaborator:
+
+I found the AI most helpful when it guided me through building the calculator step by step, especially when I didn’t know how to structure the code or style the interface. It felt like having a tutor who could instantly provide examples and explanations. At the same time, it was frustrating when the AI’s responses were incomplete or cut off, because I had to troubleshoot why the calculator wasn’t working and that slowed down my progress. What surprised me most was how collaborative the process felt; even though the AI isn’t human, it adapted to my needs, offered different approaches, and pushed me to think critically about design choices like whether to use plain HTML or rebuild the project as a React SPA. It made me realize that working with AI is less about getting perfect answers and more about iterating together, which mirrors the problem‑solving mindset we practice in systems analysis.
+
+2. The Framework Experiment
+
+In this project the AI suggested I use React because it’s good for small apps and makes it easy to break things into pieces. Building the calculator as a Single Page Application felt different because instead of me changing the page directly with JavaScript, React kept track of the data (state) and updated the screen for me. For my simple calculator, the plain HTML and JavaScript way felt easier because it was quick and didn’t need extra setup. But if I were making something bigger, like a full game with lots of screens and features, I’d probably go with React since it helps organize everything and makes it easier to grow the project.
+
+3. The "Vibe Coding Ceiling"
+
+I definitely hit a “vibe coding ceiling” when the AI’s answers started breaking down — like when the calculator code was incomplete or didn’t run properly. That was the point where I realized I couldn’t just copy and paste; I had to actually understand the code myself to debug and fix things. It made me see that AI can give me a strong starting point, but I need to know the logic behind it to keep going. Next time, I’d slow down and test each piece as I go, instead of waiting until the end to see if it works. I’d also ask the AI for smaller, more focused chunks of code so I can learn step by step, instead of trying to handle a giant block all at once.
+
+4. Growth Moment
+
+This project taught me that AI tools are powerful for giving quick examples and helping me get unstuck, but they aren’t perfect — I have to understand the code myself to fix errors and make it work. It also taught me that web development is about more than just writing code; it’s about organizing logic, testing step by step, and choosing the right framework for the size of the project. A new question I have now is how developers decide when to stick with simple HTML/JavaScript and when to move into a bigger framework like React, because I can see both approaches have trade‑offs depending on the project’s goals.

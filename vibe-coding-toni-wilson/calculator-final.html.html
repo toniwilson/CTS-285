@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Purple Calculator with Side Memory Bank</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #E39FF6;       /* Lavender background */
+      --num: #AF69EF;      /* Orchid for number buttons */
+      --op: #9867C5;       /* Iris for operation buttons */
+      --other: #BE93D4;    /* Periwinkle for special buttons */
+      --text: #000000;     /* Black text */
+    }
+    body {
+      margin: 0;
+      background: var(--bg);
+      font-family: 'Playfair Display', serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      color: var(--text);
+    }
+    .container {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+    .calculator {
+      background: rgba(255,255,255,0.7);
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+      width: 320px;
+      display: flex;
+      flex-direction: column;
+    }
+    #display {
+      background: white;
+      border-radius: 8px;
+      padding: 10px;
+      font-size: 1.5rem;
+      text-align: right;
+      margin-bottom: 15px;
+      min-height: 40px;
+    }
+    .buttons {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+    button {
+      border: none;
+      border-radius: 8px;
+      padding: 15px;
+      font-size: 1.2rem;
+      font-weight: 600;
+      cursor: pointer;
+      color: var(--text);
+    }
+    .num { background: var(--num); }
+    .op { background: var(--op); }
+    .other { background: var(--other); }
+    .wide { grid-column: span 2; }
+    .memory {
+      background: rgba(255,255,255,0.7);
+      padding: 15px;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+      width: 220px;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+    .memory h3 {
+      margin: 0 0 8px 0;
+      font-size: 1rem;
+      text-align: center;
+    }
+    .memory ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .memory li {
+      padding: 4px 0;
+      border-bottom: 1px solid #ddd;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="calculator">
+      <div id="display">0</div>
+      <div class="buttons">
+        <button class="other" onclick="clearDisplay()">C</button>
+        <button class="other" onclick="backspace()">⌫</button>
+        <button class="other" onclick="append('%')">%</button>
+        <button class="op" onclick="append('/')">÷</button>
+
+        <button class="num" onclick="append('7')">7</button>
+        <button class="num" onclick="append('8')">8</button>
+        <button class="num" onclick="append('9')">9</button>
+        <button class="op" onclick="append('*')">×</button>
+
+        <button class="num" onclick="append('4')">4</button>
+        <button class="num" onclick="append('5')">5</button>
+        <button class="num" onclick="append('6')">6</button>
+        <button class="op" onclick="append('-')">−</button>
+
+        <button class="num" onclick="append('1')">1</button>
+        <button class="num" onclick="append('2')">2</button>
+        <button class="num" onclick="append('3')">3</button>
+        <button class="op" onclick="append('+')">+</button>
+
+        <button class="other" onclick="negate()">±</button>
+        <button class="num" onclick="append('0')">0</button>
+        <button class="other" onclick="append('.')">.</button>
+        <button class="op" onclick="calculate()">=</button>
+
+        <button class="other wide" onclick="copyResult()">Copy</button>
+        <button class="other wide" onclick="pasteNumber()">Paste</button>
+        <button class="other wide" onclick="clearMemory()">Clear Memory</button>
+      </div>
+    </div>
+
+    <div class="memory">
+      <h3>Memory Bank</h3>
+      <ul id="memoryList"></ul>
+    </div>
+  </div>
+
+  <script>
+    const display = document.getElementById('display');
+    const memoryList = document.getElementById('memoryList');
+
+    function clearDisplay() {
+      display.textContent = '0';
+    }
+
+    function backspace() {
+      let text = display.textContent;
+      display.textContent = text.length > 1 ? text.slice(0, -1) : '0';
+    }
+
+    function append(char) {
+      if (display.textContent === '0' && char !== '.') {
+        display.textContent = char;
+      } else {
+        display.textContent += char;
+      }
+    }
+
+    function calculate() {
+      try {
+        let expr = display.textContent.replace(/÷/g,'/').replace(/×/g,'*');
+        let result = eval(expr);
+        // Save to memory bank
+        const item = document.createElement('li');
+        item.textContent = display.textContent + " = " + result;
+        memoryList.prepend(item); // newest on top
+        display.textContent = result;
+      } catch {
+        display.textContent = 'Error';
+      }
+    }
+
+    function negate() {
+      try {
+        let val = parseFloat(display.textContent);
+        display.textContent = -val;
+      } catch {
+        display.textContent = 'Error';
+      }
+    }
+
+    async function copyResult() {
+      try {
+        await navigator.clipboard.writeText(display.textContent);
+      } catch {}
+    }
+
+    async function pasteNumber() {
+      try {
+        const text = await navigator.clipboard.readText();
+        if (!isNaN(text)) display.textContent = text;
+      } catch {}
+    }
+
+    function clearMemory() {
+      memoryList.innerHTML = '';
+    }
+  </script>
+</body>
+</html>
